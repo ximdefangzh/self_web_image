@@ -21,8 +21,14 @@
         _queue = [[NSOperationQueue alloc] init];
         _opList = [NSMutableDictionary dictionary];
         _imgCache = [[NSCache alloc] init];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearCache) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
     }
     return self;
+}
+-(void)clearCache{
+    [_imgCache removeAllObjects];
+    [_queue cancelAllOperations];
+    [_opList removeAllObjects];
 }
 +(instancetype)sharedManager{
     static id instance;
